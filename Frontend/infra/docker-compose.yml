@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  english-playgrounds:
+    image: ep:latest
+    container_name: english-playgrounds
+    restart: always
+    ports:
+      - 8044:80
+    deploy:
+      replicas: 1
+    networks:
+      - overlay
+
+networks:
+  overlay:

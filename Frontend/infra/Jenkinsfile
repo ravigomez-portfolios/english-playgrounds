@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    tools{
+       node 'node'
+    }
+    stages{
+        stage("Build") {
+            steps {
+                sh "yarn install --force --production=true"
+                sh "yarn build --profile"
+            }
+        }
+        stage("Create image") {
+            steps {
+                sh "docker build -t ep:${env.BUILD_NUMBER} -f infra/Dockerfile ."
+                sh "docker tag ep:${env.BUILD_NUMBER} ravigomez.ddns.net:5001/ravigomez/english_playgrouds-frontend:${env.BUILD_NUMBER}"
+                sh "docker push ravigomez.ddns.net:5001/ravigomez/ep:${env.BUILD_NUMBER}"
+                sh "docker tag ep:${env.BUILD_NUMBER} ravigomez.ddns.net:5001/ravigomez/ep:latest"
+                sh "docker push ravigomez.ddns.net:5001/ravigomez/ep:latest"
+            }
+        }
+    }
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+    }
+}

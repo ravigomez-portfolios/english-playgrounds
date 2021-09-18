@@ -4,11 +4,11 @@ import { Card, Button } from 'react-bootstrap';
 import { Space } from './styles';
 
 export default function Feed(props) {
-  const { header, title, text } = props;
+  const { author, title, text } = props;
 
   return (
     <Card>
-      <Card.Header>{header}</Card.Header>
+      <Card.Header>{author}</Card.Header>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text>{text}</Card.Text>
